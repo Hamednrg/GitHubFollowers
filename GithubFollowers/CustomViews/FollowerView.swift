@@ -21,12 +21,12 @@ struct FollowerView: View {
                     .resizable()
                     .scaledToFit()
             }
-            .frame(width: 100,height: 100)
+            .frame(width: 50,height: 50)
             .cornerRadius(10)
             
             Text(follower.login)
                 .multilineTextAlignment(.center)
-                .font(.title)
+                .font(.headline)
                 .bold()
                 .padding()
         }
