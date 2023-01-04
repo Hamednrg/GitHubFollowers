@@ -27,14 +27,17 @@ struct FollowerListView: View {
                                         await followerViewModel.didTapGitHubFollowers(from: follower.login)
                                         username = follower.login
                                         dismiss()
-                                    }
                                 }
+                            }
                         }
                     }
                 }
             }
             .redacted(reason: followerViewModel.isLoading ? .placeholder : [])
             .task {
+                await followerViewModel.getFollowers(for: username)
+            }
+            .refreshable {
                 await followerViewModel.getFollowers(for: username)
             }
             .navigationTitle("Followers")

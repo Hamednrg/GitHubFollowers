@@ -5,7 +5,6 @@
 //  Created by Hamed Naji on 2023-01-04.
 //
 
-import Foundation
 import SwiftUI
 
 struct FollowingListView: View {
@@ -29,16 +28,17 @@ struct FollowingListView: View {
                                         await followingViewModel.didTapGitHubFollowing(from: following.login)
                                         username = following.login
                                         dismiss()
-                                    }
                                 }
+                            }
                         }
                     }
-                    
                 }
-                
             }
             .redacted(reason: followingViewModel.isLoading ? .placeholder : [])
             .task {
+                await followingViewModel.getFollowing(for: username)
+            }
+            .refreshable {
                 await followingViewModel.getFollowing(for: username)
             }
             .navigationTitle("Following")
