@@ -37,10 +37,12 @@ struct ProfileView: View {
                 .padding(.horizontal)
                 .frame(maxWidth: .infinity)
             }
-        }.task {
+        }
+        .redacted(reason: userViewModel.isloading ? .placeholder : [])
+        .task {
             await userViewModel.getUserInfo(for: username)
         }
-            .onChange(of: username, perform: { newValue in
+        .onChange(of: username, perform: { newValue in
                 Task{
                     await userViewModel.getUserInfo(for: newValue)
                 }

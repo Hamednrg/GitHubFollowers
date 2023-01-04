@@ -22,17 +22,17 @@ import SwiftUI
        
         isLoading = true
         
-        let result = await NetworkManager.shared.getFollowers(for: username)
-        
-        
-        
-        switch result {
-            case .success(let newFollowers):
-                allFollowers.append(contentsOf: newFollowers)
-            case .failure(let error): errorMessage = error.rawValue
-        }
-        
-        isLoading = false
+            let result = await NetworkManager.shared.getFollowers(for: username)
+            
+            switch result {
+                case .success(let newFollowers):
+                    allFollowers.append(contentsOf: newFollowers)
+                case .failure(let error): errorMessage = error.rawValue
+            }
+            
+            isLoading = false
+    
+      
     }
     
     func selectFollower(_ follower: Follower) {

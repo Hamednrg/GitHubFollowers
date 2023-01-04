@@ -33,6 +33,7 @@ struct FollowerListView: View {
                     }
                 }
             }
+            .redacted(reason: followerViewModel.isLoading ? .placeholder : [])
             .task {
                 await followerViewModel.getFollowers(for: username)
             }

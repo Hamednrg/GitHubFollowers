@@ -37,6 +37,7 @@ struct FollowingListView: View {
                 }
                 
             }
+            .redacted(reason: followingViewModel.isLoading ? .placeholder : [])
             .task {
                 await followingViewModel.getFollowing(for: username)
             }
