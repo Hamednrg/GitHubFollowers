@@ -18,3 +18,10 @@ struct User: Identifiable, Codable {
     let following: Int
     let followers: Int
 }
+
+class UserHolder: NSObject {
+    let user: User
+    init(user: User) {
+           self.user = user
+       }
+}

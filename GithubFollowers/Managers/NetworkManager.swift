@@ -12,6 +12,8 @@ class NetworkManager {
     static let shared = NetworkManager()
     let baseUrl = "https://api.github.com"
     
+    let cache = NSCache<NSString, UserHolder>()
+    
     private init() {}
     
     func getFollowers(for username: String) async -> Result<[Follower], GFError> {
@@ -70,6 +72,11 @@ class NetworkManager {
         guard let url = URL(string: endpoint) else {
             return .failure(.invalidUsername)
         }
+        if let user = cache.object(forKey: username.lowercased() as NSString) {
+            print("Caching User------------------")
+            print("\(username)")
+            return .success(user.user)
+        }
         
         do {
             let (data, response) = try await URLSession.shared.data(from: url)
@@ -82,7 +89,10 @@ class NetworkManager {
             decoder.keyDecodingStrategy = .convertFromSnakeCase
             
             let user = try decoder.decode(User.self, from: data)
-            
+            let newUser = UserHolder(user: user)
+            cache.setObject(newUser, forKey: user.login.lowercased() as NSString)
+            print("Feteching--------------------")
+            print("\(user.login)")
             return .success(user)
         } catch {
             return .failure(.unableToComplete)
